@@ -37,14 +37,14 @@ matrix.first.each_index do |j|
   end
 end
 # get diagonal products
-matrix.each_with_index do |row, i|
-  row.each_with_index do |num, j|
+matrix.each_index do |i|
+  matrix.first.each_index do |j|
     # up-left (identical to down-right)
     if i >= 3 && j >= 3
       products << (-3..0).map { |inc| matrix[i + inc][j + inc] }.inject(:*)
     end
     # up-right (identical to down-left)
-    if i >= 3 && j <= row.length - 4
+    if i >= 3 && j <= matrix.first.length - 4
       products << (0..3).map { |inc| matrix[i - inc][j + inc] }.inject(:*)
     end
   end
