@@ -23,31 +23,37 @@ str = <<-eos
   01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
 eos
 
-products = []
-matrix = str.split("\n").map(&:strip).map(&:split).map { |row| row.map(&:to_i) }
+def get_adjacency_products(matrix, adj_num)
+  products = []
 
-# get left/right products
-matrix.each do |row|
-  row.each_cons(4) { |nums| products << nums.inject(:*) }
-end
-# get up/down products
-matrix.first.each_index do |j|
-  matrix.each_index.each_cons(4) do |row_idxes|
-    products << row_idxes.map { |i| matrix[i][j] }.inject(:*)
+  # get left/right products
+  matrix.each do |row|
+    row.each_cons(adj_num) { |nums| products << nums.inject(:*) }
   end
-end
-# get diagonal products
-matrix.each_index do |i|
+
+  # get up/down products
   matrix.first.each_index do |j|
-    # up-left (identical to down-right)
-    if i >= 3 && j >= 3
-      products << (-3..0).map { |inc| matrix[i + inc][j + inc] }.inject(:*)
-    end
-    # up-right (identical to down-left)
-    if i >= 3 && j <= matrix.first.length - 4
-      products << (0..3).map { |inc| matrix[i - inc][j + inc] }.inject(:*)
+    matrix.each_index.each_cons(adj_num) do |row_idxes|
+      products << row_idxes.map { |i| matrix[i][j] }.inject(:*)
     end
   end
+
+  # get diagonal products
+  matrix.each_index do |i|
+    matrix.first.each_index do |j|
+      # up-left (identical to down-right)
+      if i >= (adj_num - 1) && j >= (adj_num - 1)
+        products << (0...adj_num).map { |inc| matrix[i - inc][j - inc] }.inject(:*)
+      end
+      # up-right (identical to down-left)
+      if i >= (adj_num - 1) && j <= matrix.first.length - adj_num
+        products << (0...adj_num).map { |inc| matrix[i - inc][j + inc] }.inject(:*)
+      end
+    end
+  end
+
+  products
 end
 
-puts products.max
+matrix = str.split("\n").map(&:strip).map(&:split).map { |row| row.map(&:to_i) }
+puts get_adjacency_products(matrix, 4).max
