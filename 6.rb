@@ -9,5 +9,4 @@ def square_of_sum(n)
 end
 
 # answer:
-# puts (square_of_sum(100) - sum_of_squares(100))
-
+puts (square_of_sum(100) - sum_of_squares(100))
