@@ -46,7 +46,7 @@ def get_adjacency_products(matrix, adj_num)
         products << (0...adj_num).map { |inc| matrix[i - inc][j - inc] }.inject(:*)
       end
       # up-right (identical to down-left)
-      if i >= (adj_num - 1) && j <= matrix.first.length - adj_num
+      if i >= (adj_num - 1) && j <= (matrix.first.length - adj_num)
         products << (0...adj_num).map { |inc| matrix[i - inc][j + inc] }.inject(:*)
       end
     end
