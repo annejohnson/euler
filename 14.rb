@@ -9,4 +9,4 @@ def get_collatz_length(n, cache)
   cache[h_key] = 1 + get_collatz_length(nxt, cache)
 end
 
-puts (1...1000000).map { |n| [n, get_collatz_length(n, cache)] }.max_by { |n| n[1] }[0]
+puts (1...1000000).max_by { |n| get_collatz_length(n, cache) }
