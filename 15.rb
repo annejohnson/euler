@@ -1,23 +1,13 @@
 # PROBLEM 15
 
-# curr_path looks like "DRDRRD"
-def get_paths(grid_width, paths, x, y, curr_path = "")
+# All paths for a 20x20 grids consist of 40 moves (20 downs
+# and 20 rights). The number of unique paths is the number of
+# ways we can distribute 20 moves of one type among the
+# total 40. Hence C(40, 20).
 
-  # check if we're finished traversing
-  if x >= grid_width && y >= grid_width
-    paths << curr_path
-  else
-    # explore down if possible
-    if y < grid_width && x <= grid_width
-      get_paths(grid_width, paths, x, y + 1, curr_path + 'D')
-    end
-    # explore right if possible
-    if x < grid_width && y <= grid_width
-      get_paths(grid_width, paths, x + 1, y, curr_path + 'R')
-    end
-  end
-
-  paths
+def get_num_paths(grid_width)
+  n, r = grid_width * 2, grid_width
+  ((n - r + 1)..n).inject(:*) / (1..r).inject(:*)
 end
 
-puts get_paths(20, [], 0, 0).count
+puts get_num_paths(20)
