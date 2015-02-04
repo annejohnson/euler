@@ -1,27 +1,22 @@
 # PROBLEM 17
 
-ZEROTH = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
+ZERO_TO_NINETEEN = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
 
-FIRST = [nil, nil, "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
+TENS_PLACES = [nil, nil, "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
 
 def get_num_str(n)
   if n < 20
-    ZEROTH[n]
+    str = ZERO_TO_NINETEEN[n]
   elsif n < 100
-    str = FIRST[n / 10]
-    unless n % 10 == 0
-      str += "-" + ZEROTH[n % 10]
-    end
-    str
+    str = TENS_PLACES[n / 10]
+    str += "-" + ZERO_TO_NINETEEN[n % 10] unless n % 10 == 0
   elsif n < 1000
-    str = ZEROTH[n / 100] + " hundred"
-    unless n % 100 == 0
-      str += " and " + get_num_str(n % 100)
-    end
-    str
+    str = ZERO_TO_NINETEEN[n / 100] + " hundred"
+    str += " and " + get_num_str(n % 100) unless n % 100 == 0
   elsif n == 1000
-    "one thousand"
+    str = "one thousand"
   end
+  str
 end
 
 def remove_letters(str)
