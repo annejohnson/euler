@@ -8,6 +8,4 @@ def alph_value(word)
   word.chars.map { |ch| ALPHABET.index(ch) + 1 }
 end
 
-puts "#{names.sort.each_with_index.map do |name, idx|
-  (idx + 1) * alph_value(name).inject(:+)
-end.inject(:+)}"
+puts names.sort.each_with_index.map { |name, idx| (idx + 1) * alph_value(name).inject(:+) }.inject(:+)
