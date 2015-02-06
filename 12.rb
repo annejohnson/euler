@@ -3,7 +3,7 @@
 cache = [1, 1]
 
 def nth_triangle_number(n, cache)
-  cache[n] || cache[n] = n + nth_triangle_number(n - 1, cache)
+  cache[n] ||= n + nth_triangle_number(n - 1, cache)
 end
 
 # Take the prime factorization (a set of prime numbers and corresponding exponents) of n.
