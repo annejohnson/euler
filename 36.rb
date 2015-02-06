@@ -23,3 +23,4 @@ def get_binary(base_10)
   base_2
 end
 
+puts (1..1000000).select { |n| palindrome?(n) && palindrome?(get_binary(n)) }.inject(:+)
