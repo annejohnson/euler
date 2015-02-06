@@ -18,18 +18,25 @@ str = <<-eos
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23
 eos
 
-# Convert the string into a 2-D array of integers.
-# Reverse it so that the largest rows come first.
-nums = str.split("\n").map { |line| line.split(' ').map { |ch| ch.to_i } }.reverse
-
-# Traverse the pyramid from bottom to top.
-# Store the maximum path found for each element 
-# (the max path of its 2 children plus itself).
-nums.each_index do |i|
-  next if i == 0
-  nums[i].each_index do |j|
-    nums[i][j] += [nums[i - 1][j], nums[i - 1][j + 1]].max
-  end
+# Converts a pyramid string into a 2-D array of integers.
+# Reverses it so that the largest rows come first.
+def make_pyramid_array(str)
+  str.split("\n").map { |line| line.split(' ').map { |ch| ch.to_i } }.reverse
 end
 
-puts nums[-1].first
+# Traverses a pyramid (2-D integer array) from bottom to top.
+# Stores the maximum path found for each element (the max path
+# of its 2 children plus itself).
+# Returns the maximum sum from the bottom to the top.
+def get_max_path(num_pyramid)
+  num_pyramid.each_index do |i|
+    next if i == 0
+    num_pyramid[i].each_index do |j|
+      num_pyramid[i][j] += [num_pyramid[i - 1][j], num_pyramid[i - 1][j + 1]].max
+    end
+  end
+
+  num_pyramid[-1].first
+end
+
+puts get_max_path(make_pyramid_array(str))
