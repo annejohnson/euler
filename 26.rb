@@ -1,34 +1,42 @@
 # PROBLEM 26
 
 def get_cycle(n)
-  num = 1
-  denom = n
-  num_zeros = 0
-  digits, dividends = [], []
-  loop_counter = 0
+  numerator, denominator = 1, n
+  dividends = []
 
-  while num < denom
-    num *= 10
-    num_zeros += 1
+  # ensure numerator is big enough to divide by denominator
+  while numerator < denominator
+    numerator *= 10
   end
-
 
   loop do
-    if dividends.include? num
-      return dividends[dividends.index(num)..-1].map { |n| n / denom }
+    # if we've seen the dividend already, then we have a cycle
+    if dividends.include? numerator
+      # prepare output and return from the method
+      cycle_nums = dividends[dividends.index(numerator)..-1]
+      return cycle_nums.map do |n|
+        (n / denominator).to_s.chars.map { |ch| ch.to_i }
+      end.flatten
     end
-    dividends << num
-    digits << num / denom
-    remainder = num % denom
 
-    break [] if remainder == 0
+    dividends << numerator
+    numerator %= denominator
 
-    num_zeros.times do
-      remainder *= 10
+    # if numerator (remainder) is 0, there is no cycle
+    return [] if numerator == 0
+
+    # increase numerator ('carry down zeroes') as needed
+    # keep track of # of increases so we can pad with 0's when necessary
+    padded_zeros = 0
+    while numerator < denominator
+      padded_zeros += 1
+      numerator *= 10
     end
-    num = remainder
+
+    # concatenate dividends with the appropriate number of zeros
+    # the appropriate number of 0's is one less than the # of times looped
+    dividends += ([0] * (padded_zeros - 1))
   end
-  digits
 end
 
-puts "#{get_cycle(13)}"
+puts (1...1000).max_by { |i| get_cycle(i).length }
